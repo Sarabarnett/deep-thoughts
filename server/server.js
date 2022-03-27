@@ -1,6 +1,8 @@
 const express = require('express');
 //import apolloserver
 const { ApolloServer } = require('apollo-server-express');
+//import middleware for JWT
+const { authMiddleware } =require('./utils/auth');
 
 //import typedefs and resolvers
 const { typeDefs, resolvers } = require('./schemas');
@@ -13,7 +15,8 @@ const startServer = async () => {
   //create new apollo server and pass in our schema data
   const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: authMiddleware
   });
   //start apollo server
   await server.start();
